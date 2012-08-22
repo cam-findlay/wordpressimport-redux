@@ -55,8 +55,11 @@
 			<guid isPermaLink="false">http://localhost/?p=79</guid>
 			<description></description>
 			<content:encoded><![CDATA[
-				<p>Here is a test paragraph</p>
-				<p><img src="http://localhost/wp-content/uploads/2012/08/test-image-300x219.jpg" alt="Test Image" /></p>
+				Here is a test paragraph
+				
+				<img src="http://localhost/wp-content/uploads/2012/08/test-image-300x219.jpg" alt="Test Image" />
+				
+				Another paragraph
 			]]>
 			</content:encoded>
 			<excerpt:encoded><![CDATA[]]>

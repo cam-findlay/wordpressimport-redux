@@ -81,7 +81,25 @@ class WpParser
 	public function ParseBlogContent($content) {
 
 		// Convert wordpress-style image links to silverstripe asset filepaths
-		$content = preg_replace('/(http:\/\/[\w\.\/]+)?\/wp-content\/uploads\//', '/assets/Uploads/', $content);
+		$content = preg_replace('/(http:\/\/[\w\.\/]+)?\/wp-content\/uploads\//i', '/assets/Uploads/', $content);
+
+		// Split multi-line blocks into paragraphs
+		$split = preg_split('/\s*\n\s*\n\s*/im', $content);
+		$content = '';
+		foreach ($split as $paragraph)
+		{
+			$paragraph = trim($paragraph);
+			if (empty($paragraph))
+				continue;
+			
+			if(preg_match('/^<p>.*/i', $paragraph))
+				$content .= $paragraph;
+			else
+				$content .= "<p>$paragraph</p>";
+		}
+		
+		// Split single-line blocks with line-breaks
+		$content = nl2br($content);
 
 		return $content;
 	}
@@ -128,9 +146,9 @@ class WpParser
 		$wp_ns = $item->children($namespaces['wp']);
 		$content_ns = $item->children($namespaces['content']);
 		$dc_ns = $item->children($namespaces['dc']);
-		
+
 		// Filter out non-post types (attachments, pages, etc)
-		if(!in_array($wp_ns->post_type, self::$allowed_page_types))
+		if (!in_array($wp_ns->post_type, self::$allowed_page_types))
 			return null;
 
 		return array(
