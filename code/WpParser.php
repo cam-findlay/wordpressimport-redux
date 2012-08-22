@@ -83,7 +83,8 @@ class WpParser
 			'URL' => (string) $comment->comment_author_url,
 			'Comment' => (string) $comment->comment_content,
 			'Created' => (string) $comment->comment_date,
-			'Moderated' => !!$comment->comment_approved
+			'Moderated' => !!$comment->comment_approved,
+			'WordpressID' => intval($comment->comment_id)
 		);
 	}
 
@@ -121,7 +122,8 @@ class WpParser
 			'Content' => $this->parseBlogContent($content_ns),
 			'URLSegment' => (string) $wp_ns->post_name,
 			'Date' => (string) $wp_ns->post_date,
-			'Comments' => $this->parseComments($wp_ns)
+			'Comments' => $this->parseComments($wp_ns),
+			'WordpressID' => intval($wp_ns->post_id)
 		);
 	}
 
