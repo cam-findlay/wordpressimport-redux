@@ -29,6 +29,8 @@ class WpParser
 
 	// array of post entries
 	private $posts;
+	
+	public static $allowed_category_domains = array('category', 'post_tag');
 
 	public function __construct($filename) {
 		$this->simple_xml = simplexml_load_file($filename) or die('Cannot open file.');
@@ -46,16 +48,16 @@ class WpParser
 	/**
 	 * Extracts the categories from the blog post in the form of a single tag
 	 * value suitable for BlogPost
-	 * @param mixed $item The XML entity representing the wordpress post
+	 * @param array $cats list of categories
 	 * @return string A string of comma separated tag values
 	 */
-	protected function parseTags($item) {
+	public function ParseTags($cats) {
 		// Uses this array to check if the category to be added already exists in the post
 		$categories = array();
-		foreach ($item->category as $cat)
+		foreach ($cats as $cat)
 		{
 			// is this in tags or categories? We only want categories to become SS Tags
-			if ($cat['domain'] == "category" && !in_array($cat, $categories))
+			if (in_array($cat['domain'], self::$allowed_category_domains) && !in_array($cat, $categories))
 				$categories[] = (string) $cat;
 		}
 		return join(', ', $categories);
@@ -66,9 +68,12 @@ class WpParser
 	 * @param mixed $content_ns The XML object containing the wordpress post body
 	 * @return string The parsed content block in HTML format
 	 */
-	protected function parseBlogContent($content_ns) {
-		// change the wp-content link to assets allowing you to migrate images from WP to SS assets folder.
-		return str_replace('/wp-content/uploads/', '/assets/Uploads/', (string) $content_ns->encoded);
+	public function ParseBlogContent($content) {
+
+		// Convert wordpress-style image links to silverstripe asset filepaths
+		$content = preg_replace('/(http:\/\/[\w\.\/]+)?\/wp-content\/uploads\//', '/assets/Uploads/', $content);
+
+		return $content;
 	}
 
 	/**
@@ -118,8 +123,8 @@ class WpParser
 			'Title' => (string) $item->title,
 			'Link' => (string) $item->link,
 			'Author' => (string) $dc_ns->creator,
-			'Tags' => $this->parseTags($item),
-			'Content' => $this->parseBlogContent($content_ns),
+			'Tags' => $this->ParseTags($item->category),
+			'Content' => $this->ParseBlogContent((string) $content_ns->encoded),
 			'URLSegment' => (string) $wp_ns->post_name,
 			'Date' => (string) $wp_ns->post_date,
 			'Comments' => $this->parseComments($wp_ns),
