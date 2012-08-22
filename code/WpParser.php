@@ -29,8 +29,18 @@ class WpParser
 
 	// array of post entries
 	private $posts;
-	
+
+	/**
+	 * List of "tag" types that should be converted to tags
+	 * @var array List of valid tags
+	 */
 	public static $allowed_category_domains = array('category', 'post_tag');
+
+	/**
+	 * List of "page" types that should be converted to BlogEntry items
+	 * @param array List of valid types
+	 */
+	public static $allowed_page_types = array('post');
 
 	public function __construct($filename) {
 		$this->simple_xml = simplexml_load_file($filename) or die('Cannot open file.');
@@ -118,6 +128,10 @@ class WpParser
 		$wp_ns = $item->children($namespaces['wp']);
 		$content_ns = $item->children($namespaces['content']);
 		$dc_ns = $item->children($namespaces['dc']);
+		
+		// Filter out non-post types (attachments, pages, etc)
+		if(!in_array($wp_ns->post_type, self::$allowed_page_types))
+			return null;
 
 		return array(
 			'Title' => (string) $item->title,
@@ -128,7 +142,9 @@ class WpParser
 			'URLSegment' => (string) $wp_ns->post_name,
 			'Date' => (string) $wp_ns->post_date,
 			'Comments' => $this->parseComments($wp_ns),
-			'WordpressID' => intval($wp_ns->post_id)
+			'WordpressID' => intval($wp_ns->post_id),
+			'ProvideComments' => ($wp_ns->comment_status == 'open'),
+			'IsPublished' => ($wp_ns->status == 'publish') // Used later to trigger ->publish in the importer
 		);
 	}
 
@@ -142,7 +158,11 @@ class WpParser
 
 		$posts = array();
 		foreach ($this->simple_xml->channel->item as $item)
-			$posts[] = $this->parsePost($item, $namespaces);
+		{
+			// Import this post if a valid item is returned
+			if ($post = $this->parsePost($item, $namespaces))
+				$posts[] = $post;
+		}
 		return $this->posts = $posts;
 	}
 

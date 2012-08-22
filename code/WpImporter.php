@@ -92,7 +92,8 @@ class WpImporter_Controller extends Controller
 
 		$entry->update($post);
 		$entry->write();
-		$entry->publish("Stage", "Live");
+		if ($post['IsPublished'])
+			$entry->publish("Stage", "Live");
 
 		$this->importComments($post, $entry);
 

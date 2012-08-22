@@ -34,7 +34,7 @@ class WpParserTests extends FunctionalTest {
 		$parser = $this->buildTestParser();
 		$posts = $parser->parse();
 		
-		// Have we got a post?
+		// Have we got a post? The page (non post) should not be parsed
 		$this->assertEquals(1, count($posts), 'Assert single post parsed');
 		if(empty($posts))
 			return;
@@ -49,7 +49,9 @@ class WpParserTests extends FunctionalTest {
 			'Content' => "<p>Here is a test paragraph</p>\n\t\t\t\t<p><img src=\"/assets/Uploads/2012/08/test-image-300x219.jpg\" alt=\"Test Image\" /></p>",
 			'URLSegment' => 'test-post',
 			'Date' => '2011-08-18 10:52:37',
-			'WordpressID' => 79
+			'WordpressID' => 79,
+			'ProvideComments' => true,
+			'IsPublished' => true
 		);
 		foreach($expectedPost as $key => $value)
 		{
