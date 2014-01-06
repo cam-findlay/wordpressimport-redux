@@ -65,10 +65,13 @@ class WpParser
 		// Uses this array to check if the category to be added already exists in the post
 		$categories = array();
 		foreach ($cats as $cat)
-		{
+		{			
+			// Cleanup multiline and other whitespace characters
+			$catName = html_entity_decode(trim(preg_replace('/\s+/m', ' ', (string)$cat)));
+			
 			// is this in tags or categories? We only want categories to become SS Tags
-			if (in_array($cat['domain'], self::$allowed_category_domains) && !in_array($cat, $categories))
-				$categories[] = (string) $cat;
+			if (in_array($cat['domain'], self::$allowed_category_domains) && !in_array($catName, $categories))
+				$categories[] = (string) $catName;
 		}
 		return join(', ', $categories);
 	}
