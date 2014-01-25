@@ -51,19 +51,19 @@ class WpImporter_Controller extends Controller
 	 */
 
 	public function UploadForm() {
-		return new Form($this, "UploadForm",
-						new FieldList(
-								new FileField("XMLFile", 'Wordpress XML file'),
-								new HiddenField("BlogHolderID", '', $this->getBlogHolderID())
+		return Form::create($this, "UploadForm",
+						FieldList::create(
+							FileField::create("XMLFile", 'Wordpress XML file'),
+							HiddenField::create("BlogHolderID", '', $this->getBlogHolderID())
 						),
-						new FieldList(
-								new FormAction('doUpload', 'Import Wordpress XML file')
+						FieldList::create(
+							FormAction::create('doUpload', 'Import Wordpress XML file')
 						)
 		);
 	}
 
 	protected function getOrCreateComment($wordpressID) {
-		if ($wordpressID && $comment = DataObject::get('Comment')->filter(array('WordpressID' => $wordpressID))->first())
+		if ($wordpressID && $comment = Comment::get()->filter(array('WordpressID' => $wordpressID))->first())
 			return $comment;
 
 		return Comment::create();
@@ -84,7 +84,7 @@ class WpImporter_Controller extends Controller
 	}
 
 	protected function getOrCreatePost($wordpressID) {
-		if ($wordpressID && $post = DataObject::get('BlogEntry')->filter(array('WordpressID' => $wordpressID))->first())
+		if ($wordpressID && $post = BlogEntry::get()->filter(array('WordpressID' => $wordpressID))->first())
 			return $post;
 
 		return BlogEntry::create();
@@ -101,8 +101,10 @@ class WpImporter_Controller extends Controller
 
 		$entry->update($post);
 		$entry->write();
-		if ($post['IsPublished'])
+		
+		if ($post['IsPublished']){
 			$entry->publish("Stage", "Live");
+		}
 
 		$this->importComments($post, $entry);
 
