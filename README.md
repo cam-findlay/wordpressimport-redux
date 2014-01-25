@@ -2,17 +2,15 @@
 
 
 ##Maintainer Contacts
-Cam Findlay (Nickname: camfindlay)
-<cam (at) silverstripe.com>
-Damian Mooyman (Nickname: tractorcow)
-<damian (dot) mooyman (at) gmail (dot) com>
+* Cam Findlay (Nickname: camfindlay) <cam (at) silverstripe.com>
+* Damian Mooyman (Nickname: tractorcow) <damian (dot) mooyman (at) gmail (dot) com>
 
 
 ##Requirements
-mod_rewrite (optional, if you need to cater for old incoming links and are using Apache)
-SilverStripe Framework & CMS 3.1.x
-silverstripe/blog
-silverstripe/comments
+* mod_rewrite (optional, if you need to cater for old incoming links and are using Apache)
+* SilverStripe Framework & CMS 3.1.x
+* silverstripe/blog
+* silverstripe/comments
 
 ##Installation Instructions
 
@@ -37,9 +35,9 @@ wordpress posts in the form /yyyy/mm/name-of-post/
 
 
 ##Known issues:
-Content can lose a lot of the formatting coming from Wordpress.
-Perhaps parsing the content through a nl2br might help?
-Image captions need to be catered for and styled otherwise they end up looking like un-parse shortcodes.
+1. Content can lose a lot of the formatting coming from Wordpress.
+1. Perhaps parsing the content through a nl2br might help?
+1. Image captions need to be catered for and styled otherwise they end up looking like un-parse shortcodes.
 
 
 ##License

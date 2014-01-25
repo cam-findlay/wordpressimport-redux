@@ -8,6 +8,10 @@
                 {
                         "name": "Cam Findlay",
                         "email": "cam@silverstripe.com"
+                },
+                {
+                        "name": "Damian Mooyman",
+                        "email": "damian.mooyman@gmail.com"
                 }
         ],
         "require": {
