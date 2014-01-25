@@ -8,7 +8,7 @@ require('WpParser.php');
 class WpImporter extends DataExtension
 {
 
-	function updateCMSFields(FieldList $fields) {
+	public function updateCMSFields(FieldList $fields) {
 		$html_str = '<iframe name="WpImport" src="WpImporter_Controller/index/' . $this->owner->ID . '" width="500"> </iframe>';
 		$fields->addFieldToTab('Root.Import', new LiteralField("ImportIframe", $html_str));
 	}
@@ -17,8 +17,13 @@ class WpImporter extends DataExtension
 
 class WpImporter_Controller extends Controller
 {
+	private static $allowed_actions = array(
+		'index',
+		'UploadForm',
+		'doUpload'
+	);
 
-	function init() {
+	public function init() {
 		parent::init();
 
 		// Do security check in case this controller is called by unauthorised user using direct url
@@ -28,6 +33,10 @@ class WpImporter_Controller extends Controller
 		// Check for requirements
 		if (!class_exists('BlogHolder'))
 			user_error('Please install the blog module before importing from Wordpress', E_USER_ERROR);
+	}
+
+	public function index($request) {
+		return $this->renderWith('WpImporter');
 	}
 
 	protected function getBlogHolderID() {
@@ -41,7 +50,7 @@ class WpImporter_Controller extends Controller
 	 * Outputs an file upload form
 	 */
 
-	function UploadForm() {
+	public function UploadForm() {
 		return new Form($this, "UploadForm",
 						new FieldList(
 								new FileField("XMLFile", 'Wordpress XML file'),
@@ -100,7 +109,7 @@ class WpImporter_Controller extends Controller
 		return $entry;
 	}
 
-	function doUpload($data, $form) {
+	public function doUpload($data, $form) {
 
 		// Checks if a file is uploaded
 		if (!is_uploaded_file($_FILES['XMLFile']['tmp_name']))

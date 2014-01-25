@@ -6,7 +6,7 @@ class DeletPostsTask extends BuildTask
 
 	protected $description = 'Deletes all blog posts and any associated comments.';
 
-	function init() {
+	public function init() {
 		parent::init();
 
 		if (!Permission::check('ADMIN'))
