@@ -14,7 +14,7 @@
 
 ##Installation Instructions
 
-    composer require silverstripe/wordpressimport 3.1.*@dev
+    composer require silverstripe/wordpressimport 0.3.*
 
 ###Usage Overview
 It will change any links to uploaded images and 
