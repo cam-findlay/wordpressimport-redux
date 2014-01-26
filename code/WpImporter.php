@@ -100,8 +100,14 @@ class WpImporter_Controller extends Controller
 		// so we can use update here.
 
 		$entry->update($post);
-		$entry->write();
+
+		//Create an initial write as a draft copy otherwise a write() 
+		//in SS3.1.2+ will go live and never have a draft Version.
+		//@see http://doc.silverstripe.org/framework/en/changelogs/3.1.2#default-current-versioned-
+		//stage-to-live-rather-than-stage for details.
+		$entry->writeToStage('Stage');
 		
+		//If the post was published on WP, now ensure it is also live in SS.
 		if ($post['IsPublished']){
 			$entry->publish("Stage", "Live");
 		}
