@@ -1,0 +1,23 @@
+{
+        "name": "silverstripe/wordpressimport",
+        "description": "Imports Wordpress content from an exported XML file",
+        "type": "silverstripe-module",
+        "keywords": ["silverstripe","blog","wordpress", "migration"],
+        "license": "BSD-3-Clause",
+        "authors": [
+                {
+                        "name": "Cam Findlay",
+                        "email": "cam@silverstripe.com"
+                },
+                {
+                        "name": "Damian Mooyman",
+                        "email": "damian.mooyman@gmail.com"
+                }
+        ],
+        "require": {
+                "silverstripe/framework": "~3.1.2",
+                 "silverstripe/cms": "~3.1.2",
+                 "silverstripe/blog": "*",
+                 "silverstripe/comments": "*"
+        }
+}

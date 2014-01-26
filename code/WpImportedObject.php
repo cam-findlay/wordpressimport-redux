@@ -2,11 +2,7 @@
 
 class WpImportedObject extends DataExtension
 {
-	function extraStatics($class = null, $extension = null) {
-		return array(
-			'db' => array(
-				'WordpressID' => 'Int'
-			)
-		);
-	}
+	private static $db = array(
+		'WordpressID' => 'Int'
+	);
 }
