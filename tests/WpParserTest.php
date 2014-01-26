@@ -1,9 +1,9 @@
 <?php
 
 /**
- * @package comments
+ * @package wordpressimport
  */
-class WpParserTests extends FunctionalTest
+class WpParserTest extends FunctionalTest
 {
 	static $testImportFile = 'WordpressExport.xml';
 
