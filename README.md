@@ -1,5 +1,5 @@
 #Wordpress Import Module
-
+[![Build Status](https://travis-ci.org/camfindlay/silverstripe-wordpressimport.png?branch=master)](https://travis-ci.org/camfindlay/silverstripe-wordpressimport)
 
 ##Maintainer Contacts
 * Cam Findlay (Nickname: camfindlay) <cam (at) silverstripe.com>
