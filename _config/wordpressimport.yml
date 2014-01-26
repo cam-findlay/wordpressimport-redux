@@ -1,0 +1,12 @@
+---
+Name: wordpressimport
+---
+BlogHolder:
+  extensions: 
+    - WpImporter
+BlogEntry:
+  extensions:
+    - WpImportedObject
+Comment:
+  extensions:
+    - WpImportedObject
